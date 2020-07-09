@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskService {
+
+
     public Task findTaskById(Long id) {
         Task task = new Task();
         task.setId(1);
@@ -13,7 +15,8 @@ public class TaskService {
         task.setTitle("task");
         return task;
     }
-    public List<Task> findAllTasks(){
+
+    public List<Task> findAllTasks() {
         List<Task> tasks = new ArrayList<>();
         Task task = new Task();
         task.setId(1);
@@ -24,7 +27,8 @@ public class TaskService {
         tasks.add(task);
         return tasks;
     }
-    public Task createTask(Task task){
+
+    public Task createTask(Task task) {
         System.out.println(task);
         return task;
     }
