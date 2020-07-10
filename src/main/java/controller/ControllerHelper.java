@@ -1,6 +1,5 @@
 package controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
@@ -32,6 +31,7 @@ public class ControllerHelper<T> {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

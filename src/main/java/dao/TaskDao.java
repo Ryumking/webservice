@@ -18,7 +18,7 @@ public class TaskDao implements DAO<Task, Integer> {
     public boolean create(Task task) {
         boolean result = false;
 
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.INSERT.QUERY)) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
@@ -35,11 +35,11 @@ public class TaskDao implements DAO<Task, Integer> {
     public Task readById(Integer integer) {
         final Task result = new Task();
         result.setId(-1);
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.GET_BY_ID.QUERY)) {
             statement.setInt(1, integer);
             final ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 result.setId(integer);
                 result.setTitle(resultSet.getString("title"));
                 result.setDescription(resultSet.getString("description"));
@@ -55,7 +55,7 @@ public class TaskDao implements DAO<Task, Integer> {
     @Override
     public List<Task> readAll() {
         final List<Task> result = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.GET_ALL.QUERY)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -76,7 +76,7 @@ public class TaskDao implements DAO<Task, Integer> {
     @Override
     public boolean update(Task task) {
         boolean result = false;
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.UPDATE.QUERY)) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
@@ -93,7 +93,7 @@ public class TaskDao implements DAO<Task, Integer> {
     @Override
     public boolean delete(Integer id) {
         boolean result = false;
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.DELETE.QUERY)) {
             statement.setInt(1, id);
             result = statement.executeUpdate() > 0;
