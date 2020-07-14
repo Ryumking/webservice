@@ -10,7 +10,7 @@ public class DataSource {
     private static final HikariConfig config = new HikariConfig();
     private static final HikariDataSource dataSource;
     private final static String USER = "postgres";
-    private final static String PASSWORD = "admin";
+    private final static String PASSWORD = "7753191v";
     private final static String URL = "jdbc:postgresql://localhost:5432/tasksDB";
 
     static {

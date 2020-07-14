@@ -1,7 +1,6 @@
 package service;
 
 import dao.UserDao;
-import model.Task;
 import model.User;
 
 import java.util.List;

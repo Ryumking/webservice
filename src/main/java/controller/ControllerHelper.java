@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 public class ControllerHelper<T> {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final  Class<T> aClass;
+    private final Class<T> aClass;
 
     public ControllerHelper(Class<T> aClass) {
         this.aClass = aClass;
@@ -20,9 +20,10 @@ public class ControllerHelper<T> {
     public Long getIdFromPath(HttpServletRequest request) {
         final String path = request.getPathInfo();
         String[] urlParams = path.split("/");
-        if (urlParams.length==0){
+        if (urlParams.length == 0) {
             return 0L;
-        }return Long.parseLong(urlParams[1]);
+        }
+        return Long.parseLong(urlParams[1]);
     }
 
     public void writeToJson(HttpServletResponse resp, Object obj) {

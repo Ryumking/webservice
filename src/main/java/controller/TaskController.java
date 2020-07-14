@@ -23,6 +23,7 @@ public class TaskController extends HttpServlet {
             return;
         }
         taskControllerHelper.writeToJson(resp, taskService.findTaskById(taskId));
+        resp.setStatus(SC_OK);
     }
 
     @Override
@@ -35,6 +36,7 @@ public class TaskController extends HttpServlet {
             PrintWriter printWriter = resp.getWriter();
             printWriter.write("Bad parameters");
             resp.setStatus(SC_BAD_REQUEST);
+            return;
         }
         resp.addHeader("Location", "/tasks/" + taskId);
         resp.setStatus(SC_CREATED);
@@ -57,8 +59,8 @@ public class TaskController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        final long idFromPath = taskControllerHelper.getIdFromPath(req);
-        if (!taskService.delete(idFromPath)) {
+        final long taskId = taskControllerHelper.getIdFromPath(req);
+        if (!taskService.delete(taskId)) {
             resp.setContentType("text/plain; charset=UTF-8");
             PrintWriter printWriter = resp.getWriter();
             printWriter.write("Bad taskId");

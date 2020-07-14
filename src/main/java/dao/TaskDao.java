@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDao implements DAO<Task,Long> {
+public class TaskDao implements DAO<Task, Long> {
 
     public TaskDao() {
     }

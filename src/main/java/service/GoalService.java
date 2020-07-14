@@ -2,7 +2,6 @@ package service;
 
 import dao.GoalDAO;
 import model.Goal;
-import model.Task;
 
 import java.util.List;
 

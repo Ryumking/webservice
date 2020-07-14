@@ -21,3 +21,12 @@ CREATE TABLE IF NOT EXISTS users
     password VARCHAR(10)  NOT NULL
 
 );
+
+--Цели
+CREATE TABLE IF NOT EXISTS goals
+(
+    id      SERIAL PRIMARY KEY,
+    title       VARCHAR(50)  NOT NULL,
+    description VARCHAR(250) null,
+    userId      INT NOT NULL
+);

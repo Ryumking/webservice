@@ -52,7 +52,7 @@ public class GoalDAO implements DAO<Goal, Long> {
 
     @Override
     public List<Goal> readAll() {
-       final List<Goal> result=new ArrayList<>();
+        final List<Goal> result = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLGoal.GET_ALL.QUERY)) {
             final ResultSet resultSet = statement.executeQuery();
@@ -68,7 +68,7 @@ public class GoalDAO implements DAO<Goal, Long> {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-       return result;
+        return result;
     }
 
     @Override

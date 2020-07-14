@@ -58,7 +58,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final long idFromPath = userControllerHelper.getIdFromPath(req);
-        if (!userService.delete(idFromPath)){
+        if (!userService.delete(idFromPath)) {
             resp.setContentType("text/plain; charset=UTF-8");
             PrintWriter printWriter = resp.getWriter();
             printWriter.write("Bad userId");

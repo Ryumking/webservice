@@ -21,5 +21,12 @@
         <servlet-name>UserController</servlet-name>
         <url-pattern>/users/*</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>GoalController</servlet-name>
+        <servlet-class>controller.GoalController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GoalController</servlet-name>
+        <url-pattern>/goals/*</url-pattern>
+    </servlet-mapping>
 </web-app>
