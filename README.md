@@ -1,3 +1,4 @@
 # webservice
-Tasks REST webservice (Servlets,JDBC) \n
+Tasks REST webservice (Servlets,JDBC)
+
 @author Vladimir Vetkovskiy
