@@ -15,7 +15,7 @@ public class UserDao implements DAO<User, Long> {
     public long create(User user) {
         long userId = 0;
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TaskDao.SQLTask.INSERT.QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UserDao.SQLTask.INSERT.QUERY)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             final ResultSet resultSet = statement.executeQuery();
@@ -33,7 +33,7 @@ public class UserDao implements DAO<User, Long> {
     public User readById(Long id) {
         final User result = new User();
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TaskDao.SQLTask.GET_BY_ID.QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UserDao.SQLTask.GET_BY_ID.QUERY)) {
             statement.setLong(1, id);
             final ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -52,7 +52,7 @@ public class UserDao implements DAO<User, Long> {
     public List<User> readAll() {
         List<User> result = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TaskDao.SQLTask.GET_ALL.QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UserDao.SQLTask.GET_ALL.QUERY)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -71,7 +71,7 @@ public class UserDao implements DAO<User, Long> {
     public boolean update(User user, Long id) {
         boolean result;
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TaskDao.SQLTask.UPDATE.QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UserDao.SQLTask.UPDATE.QUERY)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setLong(3, id);
@@ -87,7 +87,7 @@ public class UserDao implements DAO<User, Long> {
     public boolean delete(Long id) {
         boolean result;
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(TaskDao.SQLTask.DELETE.QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UserDao.SQLTask.DELETE.QUERY)) {
             statement.setLong(1, id);
             result = statement.executeUpdate() > 0;
         } catch (SQLException e) {
