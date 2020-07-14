@@ -9,38 +9,42 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDao implements DAO<Task, Integer> {
+public class TaskDao implements DAO<Task,Long> {
 
     public TaskDao() {
     }
 
     @Override
-    public boolean create(Task task) {
-        boolean result = false;
+    public long create(Task task) {
+        long taskId = 0;
 
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.INSERT.QUERY)) {
-            statement.setString(1, task.getTitle());
-            statement.setString(2, task.getDescription());
-            statement.setDate(3, task.getDate());
-            statement.setBoolean(4, task.isDone());
-            result = statement.executeUpdate() > 0;
+            statement.setLong(1, task.getUserId());
+            statement.setString(2, task.getTitle());
+            statement.setString(3, task.getDescription());
+            statement.setDate(4, task.getDate());
+            statement.setBoolean(5, task.isDone());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                taskId = resultSet.getLong("taskId");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return result;
+        return taskId;
     }
 
     @Override
-    public Task readById(Integer integer) {
+    public Task readById(Long id) {
         final Task result = new Task();
-        result.setId(-1);
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.GET_BY_ID.QUERY)) {
-            statement.setInt(1, integer);
+            statement.setLong(1, id);
             final ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                result.setId(integer);
+                result.setId(id);
                 result.setTitle(resultSet.getString("title"));
                 result.setDescription(resultSet.getString("description"));
                 result.setDate(resultSet.getDate("date"));
@@ -48,6 +52,7 @@ public class TaskDao implements DAO<Task, Integer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -69,46 +74,50 @@ public class TaskDao implements DAO<Task, Integer> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return result;
     }
 
     @Override
-    public boolean update(Task task) {
-        boolean result = false;
+    public boolean update(Task task, Long id) {
+        boolean result;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.UPDATE.QUERY)) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
             statement.setDate(3, task.getDate());
             statement.setBoolean(4, task.isDone());
-            statement.setInt(5, task.getId());
+            statement.setLong(5, id);
             result = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return result;
     }
 
     @Override
-    public boolean delete(Integer id) {
-        boolean result = false;
+    public boolean delete(Long id) {
+        boolean result;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLTask.DELETE.QUERY)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             result = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return result;
     }
 
     enum SQLTask {
-        INSERT("INSERT INTO tasks (title, description,date,is_done) VALUES((?),(?),(?),(?))"),
+        INSERT("INSERT INTO tasks (userId, title, description,date,isDone) VALUES((?),(?),(?),(?),(?))" +
+                "RETURNING id"),
         GET_BY_ID("SELECT * FROM tasks WHERE id = (?)"),
         GET_ALL("SELECT * FROM tasks"),
         UPDATE("UPDATE tasks SET title = (?), description = (?), date = (?), is_done = (?) WHERE id = (?)"),
-        DELETE("DELETE  FROM tasks WHERE id = (?)");
+        DELETE("DELETE FROM tasks WHERE id = (?)");
 
         String QUERY;
 

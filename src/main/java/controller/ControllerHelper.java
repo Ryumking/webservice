@@ -17,9 +17,12 @@ public class ControllerHelper<T> {
         this.aClass = aClass;
     }
 
-    public Long getIdFromPath(String s) {
-        String[] urlParams = s.split("/");
-        return Long.parseLong(urlParams[1]);
+    public Long getIdFromPath(HttpServletRequest request) {
+        final String path = request.getPathInfo();
+        String[] urlParams = path.split("/");
+        if (urlParams.length==0){
+            return 0L;
+        }return Long.parseLong(urlParams[1]);
     }
 
     public void writeToJson(HttpServletResponse resp, Object obj) {
